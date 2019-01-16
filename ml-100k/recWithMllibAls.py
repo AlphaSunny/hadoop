@@ -36,6 +36,7 @@ if __name__=="__main__":
 
     # print out ratings from user 0:
     print "\nRatings for user ID 0:" 
+    print(platform.python_version())
     userRatings = ratings.filter("userID = 0")
     for rating in userRatings.collect():
         print (movieNames[rating['movieID']], rating['rating'])
@@ -55,5 +56,5 @@ if __name__=="__main__":
 
 
     
-    print(platform.python_version())
+    
     spark.stop()
