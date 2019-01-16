@@ -34,7 +34,7 @@ if __name__=="__main__":
     model = als.fit(ratings)
 
     # print out ratings from user 0:
-    print("\nRatings for user ID 0:")
+    print "\nRatings for user ID 0:" 
     userRatings = ratings.filter("userID = 0")
     for rating in userRatings.collect():
         print (movieNames[rating['movieID']], rating['rating'])
