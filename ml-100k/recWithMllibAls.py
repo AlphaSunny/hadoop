@@ -2,6 +2,7 @@ from pyspark.sql import SparkSession
 from pyspark.ml.recommendation import ALS
 from pyspark.sql import Row
 from pyspark.sql.functions import lit
+import platform  
 
 def loadMovieNames():
     movieNames = {}
@@ -52,4 +53,7 @@ if __name__=="__main__":
     for recommendation in topRecommendations:
         print (movieNames[recommendation['movieID']], recommendation['prediction'])
 
+
+    
+    print(platform.python_version())
     spark.stop()
