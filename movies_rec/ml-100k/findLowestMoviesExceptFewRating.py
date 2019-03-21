@@ -18,36 +18,36 @@ def parseInput(line):
 if __name__ == "__main__":
     spark = SparkSession.builder.appName("PopularMovies").getOrcreate()
 
-    # 加载电影id
+    # load movie names
     movieNames = loadMovieNames()
 
-    # 得到原始数据
+    # get the origin data
     lines = spark.sparkContext.textFile("hdfs:///user/maria_dev/ml-100k/u.data")
 
-    # 转化
+    # convert
     movies = lines.map(parseInput)
 
-    # 转化成dataframe
+    # convert it to dataframe
     movieDataset = spark.createDataFrame(movies)
 
-    # 计算平均评分
+    # calculate the average
     averageRatings = movieDataset.groupBy("movieID").avg("rating")
 
-    # 计算每个评分的数量
+    # calculate the counts of every movie id
     counts = movieDataset.groupBy("movieID").count()
 
-    # 将count加入其中
+    # bind the count
     avgAndCounts = counts.join(averageRatings, "movieID")
     
 
-    # 过滤
+    # filter
     tenAvgAndCounts = avgAndCounts.filter("count>10")
 
-    # 找到top 10
+    # find top 10
     topTen = tenAvgAndCounts.orderBy("avg(rating)").take(10)
 
     for movie in topTen:
         print(movieNames[movie[0]], movie[1], movie[2])
 
-    # 结束
+    # stop
     spark.stop()
