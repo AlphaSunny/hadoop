@@ -4,7 +4,7 @@ from pyspark.sql import functions
 
 def loadMovieNames():
     movieNames = {}
-    with open('../datasets/ml-100k/u.item') as f:
+    with open('../dataset/ml-100k/u.item') as f:
         for line in f:
             fields = line.split('|')
             movieNames[int(fields[0])] = fields[1]
@@ -16,7 +16,7 @@ def parseInput(line):
     return Row(movieID = int(fields[1]), rating = float(fields[2]))
 
 if __name__ == "__main__":
-    spark = SparkSession.builder.appName("PopularMovies").getOrcreate()
+    spark = SparkSession.builder.appName("PopularMovies").getOrCreate()
 
     # load movie names
     movieNames = loadMovieNames()
